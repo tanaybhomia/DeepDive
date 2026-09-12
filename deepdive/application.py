@@ -298,7 +298,7 @@ class DeepDiveApplication(Adw.Application):
         
         about.set_release_notes("""<ul>
   <li>Initial Release of Deep Dive!</li>
-  <li>Includes Submerge Mode, Web Blocker, and Project Tracking.</li>
+  <li>Includes Submerge Mode and Project Tracking.</li>
 </ul>""")
 
         about.add_link("Wiki", "https://github.com/tanaybhomia/DeepDive/wiki")

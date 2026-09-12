@@ -698,11 +698,6 @@ class DeepDiveWindow(Adw.ApplicationWindow):
 
         if is_running:
             self.btn_submerge.set_sensitive(False)
-            master_enabled = db.get_setting("web_blocker_enabled", "False") == "True"
-            normal_enabled = db.get_setting("web_blocker_normal_mode", "False") == "True"
-            
-            if self.timer.state == "Focus" and master_enabled and (self.is_submerged or normal_enabled):
-                self._block_websites()
 
             if self.is_submerged and self.timer.state == "Focus":
                 self.play_pause_btn.set_icon_name("io.github.tanaybhomia.DeepDive-symbolic")
@@ -727,11 +722,9 @@ class DeepDiveWindow(Adw.ApplicationWindow):
             ):
                 self._show_overlays()
         else:
-            self._unblock_websites()
             sw_active = getattr(self, "stopwatch", None) and self.stopwatch.elapsed_seconds > 0
             self.btn_submerge.set_sensitive(not (is_active or sw_active))
                 
-            self._unblock_websites()
             if self.is_submerged:
                 self.play_pause_btn.set_icon_name("io.github.tanaybhomia.DeepDive-symbolic")
             else:
@@ -764,53 +757,7 @@ class DeepDiveWindow(Adw.ApplicationWindow):
         self._set_running_ui_state(False)
         self._update_time_display()
 
-    def _block_websites(self):
-        is_enabled = db.get_setting("web_blocker_enabled", "False") == "True"
-        if not is_enabled:
-            return
-            
-        websites = [d for _, d in db.get_websites()]
-        if not websites:
-            return
-            
-        domains_str = ",".join(websites)
-        import os, subprocess
-        
-        is_flatpak = os.path.exists("/.flatpak-info")
-        cmd = ["sudo", "-n", "/usr/bin/python3", "/usr/local/bin/deepdive-blocker.py", "block", domains_str]
-        if is_flatpak:
-            cmd = ["flatpak-spawn", "--host"] + cmd
-        
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            if result.returncode != 0:
-                print(f"Failed to start blocker: {result.stderr}")
-                from gi.repository import GLib, Adw
-                GLib.idle_add(lambda: self.toast_overlay.add_toast(Adw.Toast.new(f"Blocker Error: {result.stderr.strip()}"[:80])))
-            self._is_blocked = True
-        except Exception as e:
-            print(f"Exception starting blocker: {e}")
 
-    def _unblock_websites(self):
-        if db.get_setting("polkit_installed", "False") != "True":
-            return
-            
-        import os, subprocess
-        
-        is_flatpak = os.path.exists("/.flatpak-info")
-        cmd = ["sudo", "-n", "/usr/bin/python3", "/usr/local/bin/deepdive-blocker.py", "unblock"]
-        if is_flatpak:
-            cmd = ["flatpak-spawn", "--host"] + cmd
-        
-        try:
-            result = subprocess.run(cmd, capture_output=True, text=True)
-            if result.returncode != 0:
-                print(f"Failed to unblock: {result.stderr}")
-                from gi.repository import GLib, Adw
-                GLib.idle_add(lambda: self.toast_overlay.add_toast(Adw.Toast.new(f"Unblock Error: {result.stderr.strip()}"[:80])))
-            self._is_blocked = False
-        except Exception as e:
-            print(f"Exception unblocking: {e}")
 
     def _on_break_clicked(self, button):
         if self.timer.state == "Focus" and self.is_submerged and self.timer.is_running:
@@ -1061,11 +1008,6 @@ class DeepDiveWindow(Adw.ApplicationWindow):
 
         if is_running:
             self.btn_submerge.set_sensitive(False)
-            master_enabled = db.get_setting("web_blocker_enabled", "False") == "True"
-            normal_enabled = db.get_setting("web_blocker_normal_mode", "False") == "True"
-            
-            if master_enabled and (self.is_submerged or normal_enabled):
-                self._block_websites()
 
             if self.is_submerged:
                 self.sw_play_pause_btn.set_icon_name("io.github.tanaybhomia.DeepDive-symbolic")

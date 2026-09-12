@@ -220,7 +220,6 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         self.add(notif_page)
         
         self._build_projects_page()
-        self._build_blocker_page()
 
     def _create_spin_row(
         self, title_text, subtitle_text, min_val, max_val, default_val, callback
@@ -558,141 +557,10 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         )
         dialog.add_response("ok", "OK")
         dialog.set_default_response("ok")
-        try:
-            dialog.set_transient_for(self.get_root())
-        except Exception:
-            pass
-        dialog.present()
-        
-    def _on_add_website(self, btn):
-        domain = self.new_website_entry.get_text().strip()
-        if not domain:
-            return
-            
-        domain = domain.lower()
-        if "://" in domain:
-            from urllib.parse import urlparse
-            domain = urlparse(domain).netloc
-        elif "/" in domain:
-            domain = domain.split("/")[0]
-            
-        if domain.startswith("www."):
-            domain = domain[4:]
-            
-        w_id = db.add_website(domain)
-        if w_id:
-            self.new_website_entry.set_text("")
-            self._refresh_websites_list()
-        else:
-            toast = Adw.Toast.new("Website already in list")
-            self.add_toast(toast)
-
-    def _on_enable_blocker_changed(self, switch, param):
-        if getattr(self, "_is_initializing", False) or getattr(self, "_is_reverting", False):
-            return
-        is_enabled = switch.get_active()
-        
-        if is_enabled:
-            if db.get_setting("polkit_installed", "False") != "True":
-                self._check_install_polkit(switch, is_normal=False)
-            else:
-                db.set_setting("web_blocker_enabled", "True")
-        else:
-            db.set_setting("web_blocker_enabled", "False")
-
-    def _on_block_normal_changed(self, switch, param):
-        if getattr(self, "_is_initializing", False) or getattr(self, "_is_reverting", False):
-            return
-        is_enabled = switch.get_active()
-        
-        if is_enabled:
-            if db.get_setting("polkit_installed", "False") != "True":
-                self._check_install_polkit(switch, is_normal=True)
-            else:
-                db.set_setting("web_blocker_normal_mode", "True")
-        else:
-            db.set_setting("web_blocker_normal_mode", "False")
-
-    def _revert_switch(self, switch):
-        self._is_reverting = True
-        switch.set_active(False)
-        self._is_reverting = False
-
-    def _check_install_polkit(self, switch, is_normal):
-        if db.get_setting("polkit_installed", "False") == "True":
-            return
-
-        if getattr(self, "_install_dialog_open", False):
-            self._revert_switch(switch)
-            return
-            
-        self._install_dialog_open = True
-
-        dialog = Adw.MessageDialog(
-            heading="Install Web Blocker?",
-            body="To block websites seamlessly without asking for your password on every session, Deep Dive needs to install a one-time security rule.\n\nThis will require your password once to complete the setup.",
-        )
-        dialog.set_transient_for(self.get_root())
-        dialog.add_response("cancel", "Not Now")
-        dialog.add_response("install", "Install Rule")
-        dialog.set_response_appearance("install", Adw.ResponseAppearance.SUGGESTED)
-        
-        def on_response(dlg, response):
-            self._install_dialog_open = False
-            if response == "install":
-                import subprocess, sys, threading, os
-                from gi.repository import GLib
-                script_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "blocker.py"))
-                
-                def run_installation(pref_win):
-                    try:
-                        # Read the local blocker code
-                        blocker_src = os.path.abspath(os.path.join(os.path.dirname(__file__), "blocker.py"))
-                        with open(blocker_src, "r") as f:
-                            blocker_code = f.read()
-
-                        is_flatpak = os.path.exists("/.flatpak-info")
-                        
-                        script_command = """
-mkdir -p /usr/local/bin
-cat > /usr/local/bin/deepdive-blocker.py
-chmod 755 /usr/local/bin/deepdive-blocker.py
-echo "ALL ALL=(root) NOPASSWD: /usr/bin/python3 /usr/local/bin/deepdive-blocker.py *" > /etc/sudoers.d/99-deepdive-blocker
-chmod 440 /etc/sudoers.d/99-deepdive-blocker
-"""
-                        
-                        cmd = ["pkexec", "bash", "-c", script_command]
-                        if is_flatpak:
-                            cmd = ["flatpak-spawn", "--host"] + cmd
-                            
-                        result = subprocess.run(
-                            cmd,
-                            input=blocker_code,
-                            capture_output=True, text=True
-                        )
-                        if result.returncode == 0:
-                            print("Installation successful!")
-                            GLib.idle_add(lambda: db.set_setting("polkit_installed", "True"))
-                            if is_normal:
-                                GLib.idle_add(lambda: db.set_setting("web_blocker_normal_mode", "True"))
-                            else:
-                                GLib.idle_add(lambda: db.set_setting("web_blocker_enabled", "True"))
-                            GLib.idle_add(lambda: pref_win._show_msg("Success", "Web Blocker rule fully installed!"))
-                        else:
-                            GLib.idle_add(lambda: pref_win._revert_switch(switch))
-                            err = result.stderr.strip() or result.stdout.strip() or "Unknown error"
-                            print(f"Installation failed: {result.returncode} - {err}")
-                            GLib.idle_add(lambda: pref_win._show_msg("Installation Failed", f"Error ({result.returncode}): {err}"))
-                    except Exception as e:
-                        error_msg = str(e)
-                        print(f"Installation exception: {error_msg}")
-                        GLib.idle_add(lambda: pref_win._revert_switch(switch))
-                        GLib.idle_add(lambda: pref_win._show_msg("Exception", error_msg))
-                        
-                threading.Thread(target=run_installation, args=(self,), daemon=True).start()
-            else:
-                self._revert_switch(switch)
-        
-        dialog.connect("response", on_response)
-        dialog.present()
-
+            db.delete_project(p_id)
+            self.projects_list_group.remove(row)
+            self._project_rows.remove(row)
+            main_win = self.get_transient_for()
+            if main_win and hasattr(main_win, "_load_projects"):
+                main_win._load_projects()
+        return on_delete
