@@ -152,13 +152,7 @@ class DeepDiveApplication(Adw.Application):
                 if hasattr(win, "stopwatch") and win.stopwatch and getattr(win.stopwatch, "dnd_sync", False):
                     win.stopwatch._set_gnome_dnd(False)
                     
-                if hasattr(win, "_unblock_websites"):
                     # Use a thread with timeout to prevent sudo from hanging the app
-                    import threading
-                    t = threading.Thread(target=win._unblock_websites)
-                    t.start()
-                    t.join(timeout=1.0)
-                    
             self.quit()
         except Exception as e:
             print(f"Error during quit: {e}")
@@ -379,14 +373,6 @@ class DeepDiveApplication(Adw.Application):
                 return True
 
             win.connect("close-request", _on_window_close)
-            
-            # Failsafe: Ensure websites are unblocked on startup in case of a crash/shutdown
-            if hasattr(win, "_unblock_websites"):
-                import threading
-                def unblock_failsafe():
-                    win._is_blocked = True
-                    win._unblock_websites()
-                threading.Thread(target=unblock_failsafe, daemon=True).start()
             
         if hasattr(win, "main_window"):
             win = win.main_window
