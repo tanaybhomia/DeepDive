@@ -36,7 +36,6 @@ Most pomodoro timers are just simple countdowns. Deep Dive is designed with the 
 ## Core Features
 
 - **Submerge Mode**: A strict, custom deep-sea themed mode where skipping and pausing are disabled, ensuring uninterrupted focus.
-- **Native Web Blocker**: Block distracting websites (like Reddit or Twitter) system-wide automatically during focus sessions, powered by a seamless, one-time setup Polkit integration.
 - **Break Overlays**: When a break starts, a fullscreen overlay forces you to stop working. It flawlessly supports multi-monitor setups and displays motivational quotes.
 - **Compact Mini-Player**: Minimize the window into a sleek, floating mini-player that dynamically adapts to your Light/Dark system theme while you work.
 - **Project Tracking**: Manage different projects from a dedicated Preferences tab and automatically log your focused time for each, backed by a local SQLite database.

@@ -28,17 +28,6 @@ Deep Dive is a timer that stops you from getting distracted. Here is how to use 
 
 ---
 
-## Web Blocker
-**What it is:** A tool that stops you from opening distracting websites like Reddit or YouTube while you are working.
-
-**How it works:** The app edits your computer's `/etc/hosts` file to block the websites when a timer starts, and unblocks them when a break starts.
-
-**How to use it:**
-1. Click the menu button (three dots) and open **Preferences**.
-2. Go to the **Web Blocker** tab.
-3. Click "Install Polkit Rule". It will ask for your password once. This allows the app to block websites automatically in the future without asking for your password every time.
-4. Turn on "Enable Web Blocker". You can also choose to block websites even when Submerge Mode is off.
-5. Type in the websites you want to block (like `reddit.com` or `twitter.com`).
 
 ---
 

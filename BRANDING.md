@@ -19,8 +19,6 @@
 ### Submerge Mode
 When you turn this on, you can't pause or skip your timer. You have to finish your work or click "Give Up".
 
-### Web Blocker
-The app edits your computer's `/etc/hosts` file to block websites like Reddit or YouTube while your timer is running.
 
 ### Break Screen
 When it's time for a break, the app covers your entire screen so you are forced to stop working. 
