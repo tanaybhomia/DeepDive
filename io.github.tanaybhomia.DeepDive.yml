@@ -1,6 +1,6 @@
 app-id: io.github.tanaybhomia.DeepDive
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: "50"
 sdk: org.gnome.Sdk
 command: deepdive
 finish-args:
@@ -12,7 +12,5 @@ modules:
   - name: deepdive
     buildsystem: meson
     sources:
-      - type: git
-        url: https://github.com/tanaybhomia/DeepDive.git
-        tag: v1.0.0
-        commit: 0cc42ecf099e8b381fb1dce90e4818919f159933
+      - type: dir
+        path: .
