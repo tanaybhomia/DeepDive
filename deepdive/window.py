@@ -1029,7 +1029,6 @@ class DeepDiveWindow(Adw.ApplicationWindow):
                 
                 self.sw_save_btn.set_sensitive(False)
         else:
-            self._unblock_websites()
             pomo_active = getattr(self, "timer", None) and self.timer.time_left < (self.timer.durations.get(self.timer.state, 0) * 60)
             self.btn_submerge.set_sensitive(not (is_active or pomo_active))
                 
