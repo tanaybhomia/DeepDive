@@ -4,14 +4,13 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Deep Dive</name>
-  <summary>Deep Dive into Focus</summary>
+  <summary>Strict pomodoro timer for GNOME</summary>
 
   <description>
     <p>Deep Dive is an active productivity timer built for the GNOME desktop. Based on the concept of "Submerging," it operates on the principle that deep work requires strict boundaries.</p>
     <p>When you start a timer, you are going underwater where distractions cannot reach you. You either finish the dive, or you deliberately "Give Up" and surface early.</p>
     <ul>
       <li>Submerge Mode: Locks the timer, preventing pausing or skipping.</li>
-      <li>Web Blocker: Modifies your hosts file to instantly block distracting websites.</li>
       <li>Break Overlays: Forces you to take a screen break with a full-screen overlay.</li>
       <li>Do Not Disturb: Automatically silences system notifications during work blocks.</li>
       <li>Project Tracking and Stats: Logs focused time against specific projects securely on your device.</li>
@@ -41,20 +40,20 @@
   
   <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/DarkMode/PomodoroDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/PomodoroDark.png</image>
       <caption>Pomodoro Timer</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/DarkMode/TimerDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/TimerDark.png</image>
       <caption>Stopwatch Timer</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/DarkMode/SubmergeDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/SubmergeDark.png</image>
       <caption>Submerge Mode</caption>
     </screenshot>
 
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/DarkMode/MiniModeDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/MiniModeDark.png</image>
       <caption>Compact Mini Mode</caption>
     </screenshot>
   </screenshots>
@@ -64,7 +63,7 @@
       <description>
         <p>Initial Release of Deep Dive!</p>
         <ul>
-          <li>Includes Submerge Mode, Web Blocker, and Project Tracking.</li>
+          <li>Includes Submerge Mode and Project Tracking.</li>
         </ul>
       </description>
     </release>
