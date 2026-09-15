@@ -31,11 +31,11 @@
   
   <branding>
     <color type="primary" scheme_preference="light">#0077b6</color>
-    <color type="primary" scheme_preference="dark">#023e8a</color>
+    <color type="primary" scheme_preference="dark">#041221</color>
   </branding>
 
   <custom>
-    <value key="flathub::brand::primary">#023e8a</value>
+    <value key="flathub::brand::primary">#041221</value>
   </custom>
   
   <screenshots>
