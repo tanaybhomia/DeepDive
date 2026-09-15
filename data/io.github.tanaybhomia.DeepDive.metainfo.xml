@@ -30,12 +30,12 @@
   </developer>
   
   <branding>
-    <color type="primary" scheme_preference="light">#81d4fa</color>
-    <color type="primary" scheme_preference="dark">#041221</color>
+    <color type="primary" scheme_preference="light">#ee8054</color>
+    <color type="primary" scheme_preference="dark">#873345</color>
   </branding>
 
   <custom>
-    <value key="flathub::brand::primary">#041221</value>
+    <value key="flathub::brand::primary">#873345</value>
   </custom>
   
   <screenshots>
