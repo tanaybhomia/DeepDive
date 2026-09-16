@@ -38,22 +38,25 @@
     <value key="flathub::brand::primary">#913d45</value>
   </custom>
   
-  <screenshots>
+    <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/PomodoroDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/pomodoro.png</image>
       <caption>Pomodoro Timer</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/TimerDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/timer.png</image>
       <caption>Stopwatch Timer</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/SubmergeDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/Submergemode.png</image>
       <caption>Submerge Mode</caption>
     </screenshot>
-
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/websiteimages/DarkMode/MiniModeDark.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/stats.png</image>
+      <caption>Statistics</caption>
+    </screenshot>
+    <screenshot>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/MiniMode.png</image>
       <caption>Compact Mini Mode</caption>
     </screenshot>
   </screenshots>
