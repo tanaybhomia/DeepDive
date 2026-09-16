@@ -4,7 +4,7 @@
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>GPL-3.0-or-later</project_license>
   <name>Deep Dive</name>
-  <summary>Submerge into deep focus</summary>
+  <summary>Stay focused with strict limits</summary>
 
   <description>
     <p>Deep Dive is an active productivity timer built for the GNOME desktop. Based on the concept of "Submerging," it operates on the principle that deep work requires strict boundaries.</p>
@@ -30,12 +30,12 @@
   </developer>
   
   <branding>
-    <color type="primary" scheme_preference="light">#92d2e9</color>
-    <color type="primary" scheme_preference="dark">#045c94</color>
+    <color type="primary" scheme_preference="light">#d56450</color>
+    <color type="primary" scheme_preference="dark">#913d45</color>
   </branding>
 
   <custom>
-    <value key="flathub::brand::primary">#045c94</value>
+    <value key="flathub::brand::primary">#913d45</value>
   </custom>
   
   <screenshots>
