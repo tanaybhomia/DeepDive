@@ -38,9 +38,9 @@
     <value key="flathub::brand::primary">#913d45</value>
   </custom>
   
-    <screenshots>
+      <screenshots>
     <screenshot type="default">
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/pomodoro.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/pomo.png</image>
       <caption>Pomodoro Timer</caption>
     </screenshot>
     <screenshot>
@@ -48,7 +48,7 @@
       <caption>Stopwatch Timer</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/Submergemode.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/submerge.png</image>
       <caption>Submerge Mode</caption>
     </screenshot>
     <screenshot>
@@ -56,7 +56,7 @@
       <caption>Statistics</caption>
     </screenshot>
     <screenshot>
-      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/MiniMode.png</image>
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/minimod.png</image>
       <caption>Compact Mini Mode</caption>
     </screenshot>
   </screenshots>
