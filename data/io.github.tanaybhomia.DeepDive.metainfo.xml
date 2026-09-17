@@ -30,16 +30,20 @@
   </developer>
   
   <branding>
-    <color type="primary" scheme_preference="light">#d56450</color>
-    <color type="primary" scheme_preference="dark">#913d45</color>
+    <color type="primary" scheme_preference="light">#62C9E8</color>
+    <color type="primary" scheme_preference="dark">#025B93</color>
   </branding>
 
   <custom>
-    <value key="flathub::brand::primary">#913d45</value>
+    <value key="flathub::brand::primary">#025B93</value>
   </custom>
   
       <screenshots>
     <screenshot type="default">
+      <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/bannerimage.png</image>
+      <caption>Deep Dive</caption>
+    </screenshot>
+    <screenshot>
       <image>https://raw.githubusercontent.com/tanaybhomia/DeepDive/main/docs/assets/images/FlathubImages/pomo.png</image>
       <caption>Pomodoro Timer</caption>
     </screenshot>
@@ -58,6 +62,16 @@
   </screenshots>
 
   <releases>
+        <release version="1.1.0" date="2026-09-17">
+      <description>
+        <p>Window Resizing Fix + More</p>
+        <ul>
+          <li>Made the app more resizeable</li>
+          <li>Removed a condition which made the app run in the background even after closing</li>
+          <li>Change the appearance of the stats filter</li>
+        </ul>
+      </description>
+    </release>
     <release version="1.0.0" date="2026-08-27">
       <description>
         <p>Initial Release of Deep Dive!</p>

@@ -201,6 +201,44 @@ class BreakOverlayWindow(Gtk.Window):
         self.time_label.set_label(time_str)
 
 
+
+def get_latest_release_info():
+    import os
+    import sys
+    import xml.etree.ElementTree as ET
+    
+    paths = [
+        os.path.join(sys.prefix, "share", "metainfo", "io.github.tanaybhomia.DeepDive.metainfo.xml"),
+        "/app/share/metainfo/io.github.tanaybhomia.DeepDive.metainfo.xml",
+        os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "io.github.tanaybhomia.DeepDive.metainfo.xml")
+    ]
+    
+    for path in paths:
+        if os.path.exists(path):
+            try:
+                tree = ET.parse(path)
+                root = tree.getroot()
+                releases = root.find("releases")
+                if releases is not None:
+                    latest = releases.find("release")
+                    if latest is not None:
+                        version = latest.get("version")
+                        desc = latest.find("description")
+                        
+                        desc_text = ""
+                        for child in desc:
+                            if child.tag == "p":
+                                desc_text += child.text + "\n\n"
+                            elif child.tag == "ul":
+                                for li in child.findall("li"):
+                                    desc_text += "• " + (li.text or "") + "\n"
+                        
+                        return version, desc_text.strip()
+            except Exception as e:
+                print(f"XML parse error: {e}")
+                
+    return "1.0.0", "No release notes available."
+
 class DeepDiveWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -226,6 +264,21 @@ class DeepDiveWindow(Adw.ApplicationWindow):
 
         self.header = Adw.HeaderBar()
         self.toolbar_view.add_top_bar(self.header)
+
+        # Update Banner Logic
+        self.latest_version, self.latest_notes = get_latest_release_info()
+        last_seen = db.get_setting("last_seen_version", "1.0.0")
+        
+        self.banner = Adw.Banner(title=f"Deep Dive just got better! (v{self.latest_version})", button_label="What's New")
+        self.banner.add_css_class("deepdive-update-banner")
+        self.banner.connect("button-clicked", self._on_whats_new_clicked)
+        self.toolbar_view.add_top_bar(self.banner)
+        
+        if last_seen != self.latest_version:
+            self.banner.set_revealed(True)
+        else:
+            self.banner.set_revealed(False)
+
         
         self.btn_compact = Gtk.Button(icon_name="view-restore-symbolic")
         self.btn_compact.set_tooltip_text("Mini Player")
@@ -834,6 +887,48 @@ class DeepDiveWindow(Adw.ApplicationWindow):
             self.progress_bar.set_fraction(elapsed_time / total_time)
         else:
             self.progress_bar.set_fraction(0.0)
+
+
+    def _on_whats_new_clicked(self, banner):
+        self.banner.set_revealed(False)
+        db.set_setting("last_seen_version", self.latest_version)
+        
+        rel_desc = self.latest_notes
+        body_text = rel_desc
+        
+        body_label = Gtk.Label(
+            label=body_text,
+            use_markup=True,
+            wrap=True,
+            justify=Gtk.Justification.LEFT,
+            halign=Gtk.Align.START,
+            margin_top=12,
+            margin_bottom=12
+        )
+        body_label.set_size_request(320, -1)
+        
+        dialog = Adw.MessageDialog(
+            heading=f"What's New in v{self.latest_version}",
+            extra_child=body_label
+        )
+        dialog.add_response("donate", "Support Deep Dive ❤️")
+        dialog.set_response_appearance("donate", Adw.ResponseAppearance.SUGGESTED)
+        dialog.add_response("close", "Close")
+        dialog.set_close_response("close")
+        
+        def on_response(dlg, response):
+            if response == "donate":
+                import webbrowser
+                # Check if there is a donate page, else fallback to github
+                webbrowser.open("https://github.com/sponsors/tanaybhomia")
+            elif response == "close":
+                pass
+                
+        dialog.connect("response", on_response)
+        dialog.set_transient_for(self)
+        dialog.present()
+
+
 
     def _on_compact_clicked(self, button):
         if not hasattr(self, 'compact_window'):

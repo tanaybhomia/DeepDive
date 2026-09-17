@@ -289,11 +289,53 @@ class DeepDiveApplication(Adw.Application):
         Gio.AppInfo.launch_default_for_uri("https://tanaybhomia.github.io/DeepDive/donate.html", None)
 
     def _on_about_action(self, action, param):
+        import xml.etree.ElementTree as ET
+        import os
+        from gi.repository import GLib
+        
+        version = "1.0.0"
+        release_notes = "<ul><li>No release notes available</li></ul>"
+        
+        # Parse metainfo.xml for version and notes
+        app_id = "io.github.tanaybhomia.DeepDive"
+        base_dir = os.path.dirname(os.path.dirname(__file__))
+        metainfo_path = os.path.join(base_dir, "data", f"{app_id}.metainfo.xml")
+        
+        # If running installed via flatpak, adjust path
+        if not os.path.exists(metainfo_path):
+            metainfo_path = f"/app/share/metainfo/{app_id}.metainfo.xml"
+            
+        try:
+            tree = ET.parse(metainfo_path)
+            root = tree.getroot()
+            releases = root.find("releases")
+            if releases is not None:
+                latest_release = releases.find("release")
+                if latest_release is not None:
+                    ver = latest_release.get("version")
+                    if ver: version = ver
+                    
+                    desc = latest_release.find("description")
+                    if desc is not None:
+                        # Extract the contents of description as a string
+                        # Usually it contains <p> and <ul> tags.
+                        # AdwAboutWindow set_release_notes requires a string containing valid XML <ul> elements.
+                        ul = desc.find("ul")
+                        if ul is not None:
+                            # Reconstruct the <ul> XML string
+                            notes_str = "<ul>"
+                            for li in ul.findall("li"):
+                                notes_str += f"<li>{li.text}</li>"
+                            notes_str += "</ul>"
+                            release_notes = notes_str
+        except Exception as e:
+            print("Error parsing metainfo for about window:", e)
+
         about = Adw.AboutWindow(
             application_name="Deep Dive",
             application_icon="io.github.tanaybhomia.DeepDive",
             developer_name="Tanay Bhomia",
-            version="1.0.0",
+            version=version,
             website="https://tanaybhomia.github.io/DeepDive/",
             issue_url="https://github.com/tanaybhomia/DeepDive/issues",
             support_url="https://github.com/tanaybhomia/DeepDive/discussions",
@@ -302,10 +344,7 @@ class DeepDiveApplication(Adw.Application):
             transient_for=self.props.active_window,
         )
         
-        about.set_release_notes("""<ul>
-  <li>Initial Release of Deep Dive!</li>
-  <li>Includes Submerge Mode and Project Tracking.</li>
-</ul>""")
+        about.set_release_notes(release_notes)
 
         about.add_link("Wiki", "https://github.com/tanaybhomia/DeepDive/wiki")
         about.add_link("Donate", "https://tanaybhomia.github.io/DeepDive/donate.html")
