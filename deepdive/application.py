@@ -135,6 +135,15 @@ class DeepDiveApplication(Adw.Application):
             GLib.timeout_add(500, remove_no_transition)
 
     def _do_quit(self):
+
+        # Absolute failsafe: if GTK or PyGObject fails to terminate the process after self.quit(), nuke it.
+        import os, threading
+        def _nuke():
+            import time
+            time.sleep(0.5)
+            os._exit(0)
+        threading.Thread(target=_nuke, daemon=True).start()
+
         try:
             win = self.props.active_window
             if not win:
@@ -156,17 +165,13 @@ class DeepDiveApplication(Adw.Application):
             self.quit()
         except Exception as e:
             print(f"Error during quit: {e}")
-            self.quit()
-            
-        # Absolute failsafe: if GTK or PyGObject fails to terminate the process after self.quit(), nuke it.
-        import os, threading
-        def _nuke():
-            import time
-            time.sleep(0.5)
-            os._exit(0)
-        threading.Thread(target=_nuke, daemon=True).start()
+            try:
+                self.quit()
+            except:
+                pass
 
     def _attempt_quit(self, win):
+
         try:
             if not win or not hasattr(win, "timer"):
                 self._do_quit()
@@ -180,12 +185,16 @@ class DeepDiveApplication(Adw.Application):
                 self._do_quit()
                 return
 
-            is_pomodoro_active = win.timer.is_running or win.timer.time_left < (win.timer.durations.get(win.timer.state, 0) * 60)
-            is_stopwatch_active = win.stopwatch.is_running or win.stopwatch.elapsed_seconds > 0
+            is_pomodoro_running = win.timer.is_running
+            is_stopwatch_running = win.stopwatch.is_running
+            
+            is_pomodoro_active = is_pomodoro_running or win.timer.time_left < (win.timer.durations.get(win.timer.state, 0) * 60)
+            is_stopwatch_active = is_stopwatch_running or win.stopwatch.elapsed_seconds > 0
 
             if is_pomodoro_active or is_stopwatch_active:
+                heading = "Active Session in Progress" if (is_pomodoro_running or is_stopwatch_running) else "Paused Session"
                 dialog = Adw.MessageDialog(
-                    heading="Active Session in Progress",
+                    heading=heading,
                 )
                 active_win = self.props.active_window
                 dialog.set_transient_for(active_win if active_win else win)
@@ -193,7 +202,8 @@ class DeepDiveApplication(Adw.Application):
                 dialog.add_response("cancel", "Cancel")
                 dialog.set_default_response("cancel")
                 
-                dialog.add_response("background", "Run in Background")
+                if is_pomodoro_running or is_stopwatch_running:
+                    dialog.add_response("background", "Run in Background")
                 
                 if is_stopwatch_active and win.stopwatch.elapsed_seconds >= 300:
                     dialog.add_response("save_quit", "Save & Quit")
@@ -369,6 +379,7 @@ class DeepDiveApplication(Adw.Application):
             win = DeepDiveWindow(application=self)
 
             def _on_window_close(*args):
+
                 self._attempt_quit(win)
                 return True
 
