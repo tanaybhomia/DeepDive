@@ -221,7 +221,6 @@ class DeepDiveWindow(Adw.ApplicationWindow):
         self.stopwatch.on_tick_callback = self._on_stopwatch_tick
 
         self.toolbar_view = Adw.ToolbarView()
-        self.toolbar_view.set_size_request(435, 640)
         self.toast_overlay = Adw.ToastOverlay()
         self.set_content(self.toolbar_view)
 

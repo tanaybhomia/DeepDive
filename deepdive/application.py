@@ -9,8 +9,10 @@ from deepdive.window import DeepDiveWindow
 
 class DeepDiveApplication(Adw.Application):
     def __init__(self):
+        import os
+        app_id = "io.github.tanaybhomia.DeepDive.Devel" if os.environ.get("DEEPDIVE_DEVEL") else "io.github.tanaybhomia.DeepDive"
         super().__init__(
-            application_id="io.github.tanaybhomia.DeepDive",
+            application_id=app_id,
             flags=Gio.ApplicationFlags.FLAGS_NONE,
         )
         self._setup_actions()
