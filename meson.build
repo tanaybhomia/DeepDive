@@ -35,3 +35,14 @@ install_data('data/' + app_id + '.metainfo.xml', install_dir: join_paths(datadir
 install_data('docs/assets/images/app-icon.svg',
              rename: app_id + '.svg',
              install_dir: join_paths(datadir, 'icons', 'hicolor', 'scalable', 'apps'))
+
+# Install symbolic icons for UI
+install_data(
+  'assets/icons/io.github.tanaybhomia.DeepDive-symbolic.svg',
+  'assets/icons/graph-symbolic.svg',
+  'assets/icons/submerge-symbolic.svg',
+  'assets/icons/anchor-symbolic.svg',
+  'assets/icons/analyze-symbolic.svg',
+  install_dir: join_paths(datadir, 'icons', 'hicolor', 'symbolic', 'apps')
+)
+
