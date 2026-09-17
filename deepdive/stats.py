@@ -315,10 +315,13 @@ class StatsPage(Gtk.Box):
         self.mode_box.set_halign(Gtk.Align.CENTER)
         
         self.btn_day = Gtk.ToggleButton(label="Day")
-        self.btn_day.set_active(True)
         self.btn_week = Gtk.ToggleButton(label="Week")
+        self.btn_week.set_group(self.btn_day)
         self.btn_month = Gtk.ToggleButton(label="Month")
+        self.btn_month.set_group(self.btn_day)
         self.btn_year = Gtk.ToggleButton(label="Year")
+        self.btn_year.set_group(self.btn_day)
+        self.btn_day.set_active(True)
         
         self.btn_day.connect("toggled", self._on_mode_toggled, "day")
         self.btn_week.connect("toggled", self._on_mode_toggled, "week")
@@ -538,15 +541,9 @@ class StatsPage(Gtk.Box):
 
     def _on_mode_toggled(self, btn, mode):
         if not btn.get_active():
-            if self.current_time_range == mode:
-                btn.set_active(True)
             return
         self.current_time_range = mode
         self.current_date = datetime.now()
-        buttons = [self.btn_day, self.btn_week, self.btn_month, self.btn_year]
-        for b in buttons:
-            if b != btn and b.get_active():
-                b.set_active(False)
         self.update_header()
         self.update_stats()
 
