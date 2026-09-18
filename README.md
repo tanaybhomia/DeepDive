@@ -1,17 +1,15 @@
 <div align="center">
-  <img src="/assets/icons/io.github.tanaybhomia.DeepDive.svg" alt="Deep Dive Icon" width="128" height="128"> 
+  <img src="/assets/icons/io.github.tanaybhomia.DeepDive.svg" alt="Deep Dive Icon" width="192" height="192"> 
   <h1>Deep Dive</h1>
   <p><strong>Submerge into Deep Focus</strong></p>
 
   <a href="https://flathub.org/apps/io.github.tanaybhomia.DeepDive">
-    <img src="https://flathub.org/api/badge?svg&locale=en" alt="Download on Flathub" height="56">
+    <img src="https://flathub.org/api/badge?svg&locale=en" alt="Download on Flathub" height="84">
   </a>
   <br><br>
 
-  <a href="#"><img src="https://img.shields.io/badge/Platform-GNOME-4A86CF?style=flat-square" alt="Platform: GNOME"></a>
-  <a href="#"><img src="https://img.shields.io/badge/GTK-4.0-white?style=flat-square&logo=gtk" alt="GTK4"></a>
-  <a href="#"><img src="https://img.shields.io/badge/License-GPLv3-blue?style=flat-square" alt="License: GPLv3"></a>
-  <a href="https://github.com/tanaybhomia/DeepDive/stargazers"><img src="https://img.shields.io/github/stars/tanaybhomia/DeepDive?style=flat-square&logo=github&color=gold" alt="GitHub Stars"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/LICENSE-GPL--3.0-0AB3BB?labelColor=242424&style=flat-square" alt="License: GPLv3"></a>
+  <a href="#"><img src="https://img.shields.io/badge/BUILD-PASSING-3CB32A?labelColor=242424&style=flat-square" alt="Build Status"></a>
   <a href="https://flathub.org/apps/io.github.tanaybhomia.DeepDive"><img src="https://img.shields.io/flathub/downloads/io.github.tanaybhomia.DeepDive?style=flat-square&logo=flathub&color=blue" alt="Flathub Downloads"></a>
   <br><br>
 
