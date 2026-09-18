@@ -71,22 +71,3 @@ Deep Dive follows the GNOME Human Interface Guidelines (HIG) perfectly. It utili
 ## License
 
 Deep Dive is free and open-source software licensed under the **GNU General Public License v3.0** (GPL-3.0). See the [LICENSE](LICENSE) file for more details.
-
-## Stargazers
-
-Thank you to everyone who has starred the repository and supported the project!
-<a href="https://www.star-history.com/?repos=tanaybhomia%2FDeepDive&type=timeline&legend=top-left">
- <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/DeepDive&type=timeline&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=tanaybhomia/DeepDive&type=timeline&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=tanaybhomia/DeepDive&type=timeline&legend=top-left" />
- </picture>
-</a>
-
-## Support
-
-If you find Deep Dive helpful and want to support its development, you can buy me a coffee!
-
-<a href="https://ko-fi.com/tanaybhomia">
-  <img src="docs/images/support_me_on_kofi_badge_red.png" alt="Support me on Ko-fi" height="40">
-</a>
