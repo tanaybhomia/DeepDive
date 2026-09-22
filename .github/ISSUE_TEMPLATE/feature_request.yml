@@ -1,5 +1,5 @@
 name: Feature Request
-description: Suggest an idea for Whisp
+description: Suggest an idea for Deep Dive
 labels: ["enhancement"]
 body:
   - type: markdown
