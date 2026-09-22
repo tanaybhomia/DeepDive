@@ -5,8 +5,8 @@ body:
   - type: markdown
     attributes:
       value: |
-        Thanks for your interest in improving Whisp!
-        Whisp is designed to be highly minimalistic ("The Anti-Note for GNOME"). Please keep in mind that features that add significant clutter or deviate from this philosophy might be rejected.
+        Thanks for your interest in improving Deep Dive!
+        Deep Dive is designed to be a highly minimalistic and distraction-free productivity app for GNOME. Please keep in mind that features that add significant clutter or deviate from this philosophy might be rejected.
   - type: textarea
     id: description
     attributes:
