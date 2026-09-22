@@ -276,6 +276,7 @@ class DeepDiveWindow(Adw.ApplicationWindow):
         
         if last_seen != self.latest_version:
             self.banner.set_revealed(True)
+            db.set_setting("last_seen_version", self.latest_version)
         else:
             self.banner.set_revealed(False)
 

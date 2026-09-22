@@ -1,0 +1,30 @@
+name: Feature Request
+description: Suggest an idea for Whisp
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for your interest in improving Whisp!
+        Whisp is designed to be highly minimalistic ("The Anti-Note for GNOME"). Please keep in mind that features that add significant clutter or deviate from this philosophy might be rejected.
+  - type: textarea
+    id: description
+    attributes:
+      label: Feature Description
+      description: A clear and concise description of what you want to add.
+    validations:
+      required: true
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use Case
+      description: Why do you need this feature? How does it improve the app for all users?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Describe any alternative solutions or workarounds you've considered.
+    validations:
+      required: false
