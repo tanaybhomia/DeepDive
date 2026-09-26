@@ -6,8 +6,9 @@ from datetime import datetime, timedelta
 class Database:
     def __init__(self):
         import os
+        from gi.repository import GLib
         folder_name = "deepdive-devel" if os.environ.get("DEEPDIVE_DEVEL") else "deepdive"
-        data_dir = os.path.join(os.path.expanduser("~"), ".local", "share", folder_name)
+        data_dir = os.path.join(GLib.get_user_data_dir(), folder_name)
         os.makedirs(data_dir, exist_ok=True)
         self.db_path = os.path.join(data_dir, "deepdive.db")
         self._init_db()
