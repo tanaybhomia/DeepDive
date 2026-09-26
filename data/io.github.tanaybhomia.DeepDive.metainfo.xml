@@ -62,7 +62,16 @@
   </screenshots>
 
   <releases>
-        <release version="1.1.0" date="2026-09-17">
+    <release version="1.1.1" date="2026-09-26">
+      <description>
+        <p>Hotfix: Persistent Configuration State</p>
+        <ul>
+          <li>Fixed an issue in Flatpak where all user configurations and database settings were wiped upon restarting the app.</li>
+          <li>Fixed an issue where the update banner continuously appeared after closing and reopening the app.</li>
+        </ul>
+      </description>
+    </release>
+            <release version="1.1.0" date="2026-09-17">
       <description>
         <p>Window Resizing Fix + More</p>
         <ul>
