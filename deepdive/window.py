@@ -3,6 +3,8 @@ import gi
 gi.require_version("Gtk", "4.0")
 gi.require_version("Adw", "1")
 
+gi.require_version("GSound", "1.0")
+from gi.repository import GSound
 from gi.repository import Gtk, Adw, Gdk, Gio, GObject, GLib
 from deepdive.timer import TimerLogic, StopwatchLogic
 from deepdive.database import db
@@ -246,6 +248,12 @@ class DeepDiveWindow(Adw.ApplicationWindow):
         self.set_default_size(435, 640)
         self.set_size_request(360, 500)
 
+        self.sound_ctx = None
+        try:
+            self.sound_ctx = GSound.Context()
+            self.sound_ctx.init()
+        except Exception as e:
+            print(f"GSound initialization failed: {e}")
         self.timer = TimerLogic()
         self.timer.on_tick_callback = self._on_timer_tick
         self.timer.on_state_change_callback = self._on_state_change
@@ -1067,6 +1075,14 @@ class DeepDiveWindow(Adw.ApplicationWindow):
             app.send_notification("deepdive-timer", notification)
 
     def _on_timer_finish(self, completed_state, completed_duration):
+        if db.get_setting("play_sounds", "True") == "True" and self.sound_ctx:
+            try:
+                if completed_state == "Focus":
+                    self.sound_ctx.play_simple({"event.id": "complete"})
+                else:
+                    self.sound_ctx.play_simple({"event.id": "alarm-clock-elapsed"})
+            except Exception as e:
+                print(f"Failed to play sound: {e}")
         if not self.timer.is_running:
             self._set_running_ui_state(False)
         self._update_time_display()

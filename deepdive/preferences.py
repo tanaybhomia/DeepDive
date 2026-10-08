@@ -161,6 +161,17 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         self.dnd_row.add_suffix(self.dnd_switch)
         ann_group.add(self.dnd_row)
 
+        self.sounds_row = Adw.ActionRow(
+            title="Play Alert Sounds",
+            subtitle="Play a sound when a Pomodoro or Break finishes.",
+        )
+        self.sounds_switch = Gtk.Switch(
+            active=db.get_setting("play_sounds", "True") == "True", valign=Gtk.Align.CENTER
+        )
+        self.sounds_switch.connect("notify::active", self._on_play_sounds_changed)
+        self.sounds_row.add_suffix(self.sounds_switch)
+        ann_group.add(self.sounds_row)
+
         notif_page.add(ann_group)
 
         overlay_group = Adw.PreferencesGroup(
@@ -349,6 +360,9 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         if self.timer:
             self.timer.notify_running_out = switch.get_active()
             db.set_setting("notify_running_out", str(self.timer.notify_running_out))
+
+    def _on_play_sounds_changed(self, switch, param):
+        db.set_setting("play_sounds", str(switch.get_active()))
 
     def _on_dnd_sync_changed(self, switch, param):
         is_active = switch.get_active()
