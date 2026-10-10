@@ -281,7 +281,6 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         if self.timer.is_running and self.timer.state == state:
             self.timer.set_duration(state, value, update_active=False)
             toast = Adw.Toast.new("Changes will apply to the next session")
-            toast.set_timeout(1)
             self.add_toast(toast)
         else:
             self.timer.set_duration(state, value)
@@ -483,7 +482,6 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
                 main_win._load_projects()
         else:
             toast = Adw.Toast.new("Project already exists")
-            toast.set_timeout(1)
             self.add_toast(toast)
 
     def _create_delete_cb(self, item_id, row, is_project=True):

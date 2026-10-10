@@ -1220,7 +1220,6 @@ class DeepDiveWindow(Adw.ApplicationWindow):
         if hasattr(self, '_current_toast') and self._current_toast:
             self._current_toast.dismiss()
         self._current_toast = Adw.Toast.new(message)
-        self._current_toast.set_timeout(1)
         self.toast_overlay.add_toast(self._current_toast)
 
     def _update_sw_time_display(self):
