@@ -1077,11 +1077,14 @@ class DeepDiveWindow(Adw.ApplicationWindow):
     def _on_timer_finish(self, completed_state, completed_duration):
         if self.sound_ctx:
             try:
+                play_pomo = db.get_setting("play_sounds_pomodoro", "True") == "True"
+                play_break = db.get_setting("play_sounds_break", "True") == "True"
+                
                 if completed_state == "Focus":
-                    if db.get_setting("play_sounds_pomodoro", "True") == "True":
+                    if play_pomo:
                         self.sound_ctx.play_simple({"event.id": "complete"})
                 else:
-                    if db.get_setting("play_sounds_break", "True") == "True":
+                    if play_break:
                         self.sound_ctx.play_simple({"event.id": "alarm-clock-elapsed"})
             except Exception as e:
                 print(f"Failed to play sound: {e}")

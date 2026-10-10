@@ -161,6 +161,10 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         self.dnd_row.add_suffix(self.dnd_switch)
         ann_group.add(self.dnd_row)
 
+        notif_page.add(ann_group)
+
+        sounds_group = Adw.PreferencesGroup(title="Sounds")
+
         self.sounds_pomodoro_row = Adw.ActionRow(
             title="Focus Alert Sound",
             subtitle="Play a sound when a Pomodoro finishes.",
@@ -170,7 +174,7 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         )
         self.sounds_pomodoro_switch.connect("notify::active", self._on_play_sounds_pomodoro_changed)
         self.sounds_pomodoro_row.add_suffix(self.sounds_pomodoro_switch)
-        ann_group.add(self.sounds_pomodoro_row)
+        sounds_group.add(self.sounds_pomodoro_row)
 
         self.sounds_break_row = Adw.ActionRow(
             title="Break Alert Sound",
@@ -181,20 +185,9 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         )
         self.sounds_break_switch.connect("notify::active", self._on_play_sounds_break_changed)
         self.sounds_break_row.add_suffix(self.sounds_break_switch)
-        ann_group.add(self.sounds_break_row)
+        sounds_group.add(self.sounds_break_row)
 
-        self.sounds_row = Adw.ActionRow(
-            title="Play Alert Sounds",
-            subtitle="Play a sound when a Pomodoro or Break finishes.",
-        )
-        self.sounds_switch = Gtk.Switch(
-            active=db.get_setting("play_sounds", "True") == "True", valign=Gtk.Align.CENTER
-        )
-        self.sounds_switch.connect("notify::active", self._on_play_sounds_changed)
-        self.sounds_row.add_suffix(self.sounds_switch)
-        ann_group.add(self.sounds_row)
-
-        notif_page.add(ann_group)
+        notif_page.add(sounds_group)
 
         overlay_group = Adw.PreferencesGroup(
             title="Screen Overlay",
@@ -388,9 +381,6 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
 
     def _on_play_sounds_break_changed(self, switch, param):
         db.set_setting("play_sounds_break", str(switch.get_active()))
-
-    def _on_play_sounds_changed(self, switch, param):
-        db.set_setting("play_sounds", str(switch.get_active()))
 
     def _on_dnd_sync_changed(self, switch, param):
         is_active = switch.get_active()
