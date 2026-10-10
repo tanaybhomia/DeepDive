@@ -161,6 +161,28 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         self.dnd_row.add_suffix(self.dnd_switch)
         ann_group.add(self.dnd_row)
 
+        self.sounds_pomodoro_row = Adw.ActionRow(
+            title="Focus Alert Sound",
+            subtitle="Play a sound when a Pomodoro finishes.",
+        )
+        self.sounds_pomodoro_switch = Gtk.Switch(
+            active=db.get_setting("play_sounds_pomodoro", "True") == "True", valign=Gtk.Align.CENTER
+        )
+        self.sounds_pomodoro_switch.connect("notify::active", self._on_play_sounds_pomodoro_changed)
+        self.sounds_pomodoro_row.add_suffix(self.sounds_pomodoro_switch)
+        ann_group.add(self.sounds_pomodoro_row)
+
+        self.sounds_break_row = Adw.ActionRow(
+            title="Break Alert Sound",
+            subtitle="Play a sound when a Break finishes.",
+        )
+        self.sounds_break_switch = Gtk.Switch(
+            active=db.get_setting("play_sounds_break", "True") == "True", valign=Gtk.Align.CENTER
+        )
+        self.sounds_break_switch.connect("notify::active", self._on_play_sounds_break_changed)
+        self.sounds_break_row.add_suffix(self.sounds_break_switch)
+        ann_group.add(self.sounds_break_row)
+
         self.sounds_row = Adw.ActionRow(
             title="Play Alert Sounds",
             subtitle="Play a sound when a Pomodoro or Break finishes.",
@@ -360,6 +382,12 @@ class DeepDivePreferencesWindow(Adw.PreferencesWindow):
         if self.timer:
             self.timer.notify_running_out = switch.get_active()
             db.set_setting("notify_running_out", str(self.timer.notify_running_out))
+
+    def _on_play_sounds_pomodoro_changed(self, switch, param):
+        db.set_setting("play_sounds_pomodoro", str(switch.get_active()))
+
+    def _on_play_sounds_break_changed(self, switch, param):
+        db.set_setting("play_sounds_break", str(switch.get_active()))
 
     def _on_play_sounds_changed(self, switch, param):
         db.set_setting("play_sounds", str(switch.get_active()))
