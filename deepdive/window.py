@@ -245,8 +245,28 @@ class DeepDiveWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.set_title("Deep Dive")
-        self.set_default_size(435, 640)
+        self._resize_timeout_id = None
+
+        saved_width = db.get_setting("window_width")
+        saved_height = db.get_setting("window_height")
+        try:
+            width = int(saved_width) if saved_width is not None else 435
+            height = int(saved_height) if saved_height is not None else 640
+        except (ValueError, TypeError):
+            width, height = 435, 640
+
+        width = max(360, width)
+        height = max(500, height)
+
+        self.set_default_size(width, height)
         self.set_size_request(360, 500)
+
+        if db.get_setting("window_maximized", "False") == "True":
+            self.maximize()
+
+        self.connect("notify::default-width", self._on_geometry_changed)
+        self.connect("notify::default-height", self._on_geometry_changed)
+        self.connect("notify::maximized", self._on_geometry_changed)
 
         self.sound_ctx = None
         try:
@@ -410,6 +430,41 @@ class DeepDiveWindow(Adw.ApplicationWindow):
             pass
 
     # self.connect("close-request", self._on_close_request) is now handled by application.py
+
+    def _on_geometry_changed(self, *args):
+        if self._resize_timeout_id:
+            GLib.source_remove(self._resize_timeout_id)
+        self._resize_timeout_id = GLib.timeout_add(500, self._debounced_save_geometry)
+
+    def _debounced_save_geometry(self):
+        self._resize_timeout_id = None
+        self.save_window_geometry()
+        return False
+
+    def save_window_geometry(self):
+        if self._resize_timeout_id:
+            GLib.source_remove(self._resize_timeout_id)
+            self._resize_timeout_id = None
+        try:
+            is_max = self.is_maximized()
+            db.set_setting("window_maximized", str(is_max))
+            if not is_max:
+                width = self.get_width()
+                height = self.get_height()
+                if width <= 0 or height <= 0:
+                    width, height = self.get_default_size()
+                if width >= 360 and height >= 500:
+                    db.set_setting("window_width", str(int(width)))
+                    db.set_setting("window_height", str(int(height)))
+            else:
+                if db.get_setting("window_width") is None or db.get_setting("window_height") is None:
+                    def_w, def_h = self.get_default_size()
+                    w = def_w if def_w >= 360 else 435
+                    h = def_h if def_h >= 500 else 640
+                    db.set_setting("window_width", str(int(w)))
+                    db.set_setting("window_height", str(int(h)))
+        except Exception as e:
+            print(f"Error saving window geometry: {e}")
 
     def _on_screensaver_active_changed(
         self,
@@ -940,6 +995,7 @@ class DeepDiveWindow(Adw.ApplicationWindow):
 
 
     def _on_compact_clicked(self, button):
+        self.save_window_geometry()
         if not hasattr(self, 'compact_window'):
             from deepdive.compact import CompactWindow
             self.compact_window = CompactWindow(self.get_application(), self)

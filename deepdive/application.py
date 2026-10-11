@@ -156,6 +156,9 @@ class DeepDiveApplication(Adw.Application):
             if win:
                 if hasattr(win, "main_window"):
                     win = win.main_window
+
+                if hasattr(win, "save_window_geometry"):
+                    win.save_window_geometry()
                     
                 if hasattr(win, "timer") and win.timer and getattr(win.timer, "dnd_sync", False):
                     win.timer._set_gnome_dnd(False)
@@ -420,7 +423,8 @@ class DeepDiveApplication(Adw.Application):
             win = DeepDiveWindow(application=self)
 
             def _on_window_close(*args):
-
+                if hasattr(win, "save_window_geometry"):
+                    win.save_window_geometry()
                 self._attempt_quit(win)
                 return True
 
